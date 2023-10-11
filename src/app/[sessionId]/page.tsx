@@ -1,6 +1,6 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
-import { apiRequest } from "../utils/api-functions";
+import { ChatMessage, SSECallbacks, apiRequest, fetchSSE } from "../utils/api-functions";
 import { url } from "inspector";
 
 export default function ChatRoute({
@@ -23,6 +23,33 @@ export default function ChatRoute({
     };
     await apiRequest('/api/send-message', { method: "POST", body: JSON.stringify(formData) });
     await getSession();
+    setInput("");
+    setLoading(false);
+  }
+
+  async function handleFormSubmitSSE(event: any) {
+    setLoading(true);
+    event.preventDefault();
+    const formData = {
+      data: {
+        input: input,
+        sessionId: params.sessionId,
+        streaming: true,
+      }
+    };
+
+    const options = {
+      body: JSON.stringify(formData),
+      method: 'POST'
+    }
+
+    const callbacks:SSECallbacks<ChatMessage> = {
+      onmessage: function (msg: ChatMessage): void {
+        console.log(msg)
+      }
+    }
+    fetchSSE('http://127.0.0.1:1337/api/strapi-chat/chat', options, callbacks);
+    
     setInput("");
     setLoading(false);
   }
@@ -62,7 +89,7 @@ export default function ChatRoute({
       <div className="mt-auto">
         <form
           className="flex justify-between items-center gap-2"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleFormSubmitSSE}
         >
           <label className="text-slate-300 hidden">Message</label>
           <input
