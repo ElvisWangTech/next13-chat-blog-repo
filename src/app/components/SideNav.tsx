@@ -27,7 +27,7 @@ export default function SideNav() {
   }, []);
 
   return (
-    <aside className="col-span-1 bg-slate-900 overflow-scroll flex flex-col p-4">
+    <aside className="col-span-1 bg-slate-900 overflow-y-auto flex flex-col p-4">
       <StartNewChatButton callback={getSession} />
       <div className="mt-4">
         <h2 className="text-slate-100 font-bold mb-2">Chat Sessions</h2>

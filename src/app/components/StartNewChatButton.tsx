@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createNewChat, apiRequest } from "../utils/api-functions";
+import { apiRequest } from "../utils/api-functions";
 
 export default function StartNewChatButton({ callback } : { callback: () => void }) {
   const [loading, setLoading] = useState(false);

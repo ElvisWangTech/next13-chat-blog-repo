@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="grid grid-cols-4 h-screen">
         <SideNav />
-        <div className="col-span-3 bg-slate-700 overflow-scroll">
+        <div className="col-span-3 bg-slate-700">
           {children}
         </div>
       </body>
